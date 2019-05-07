@@ -1,0 +1,54 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seckill.dao.SeckillDao">
+    <!-- 多个参数时，可以省略，一个参数也可以省略 -->
+    <update id="reduceNumber">
+        update
+            seckill
+        set
+            number = number - 1
+        where
+            seckill_id = #{seckillId}
+        and
+            start_time <![CDATA[<=]]> #{killTime}
+        and
+            end_time >= #{killTime}
+        and number > 0
+    </update>
+    <!-- resultType="Seckill"，此处应给全限定名，
+    #1、但是mybatis提供了package scan 包扫描这个功能，
+        这个功能会将你扫描的包下所有的类的类名，放在mybatis的别名系统里边，所以以后只需要写简单的类名就可以了，
+        在spring与mybatis整合文件里配置
+    #2、配置文件扫描，那么多的类似这种 mapper/SeckillDao.xml mapper/SuccessKilledDao.xml
+        mybatis接口配置文件，统一进行扫描-->
+    <select id="queryById" resultType="Seckill" parameterType="Long">
+        <!-- 因为开启了驼峰命名，所以mybatis会自动匹配列名和实体属性，
+         否则，必须这样写：select
+            seckill_id as seckillId ...-->
+        select
+            seckill_id,name,number,start_time,end_time,create_time
+        from
+            seckill
+        where
+            seckill_id = #{seckillId}
+    </select>
+    <select id="queryAll" resultType="Seckill">
+        select
+            seckill_id,name,number,start_time,end_time,create_time
+        from
+            seckill
+        order by
+            create_time desc
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="killByProcedure" statementType="CALLABLE">
+        call execute_seckill(
+            #{seckillId, jdbcType = BIGINT, mode = IN},
+            #{phone, jdbcType = BIGINT, mode = IN},
+            #{killTime, jdbcType = TIMESTAMP, mode = IN},
+            #{result, jdbcType = INTEGER, mode = OUT}
+        )
+    </select>
+</mapper>
