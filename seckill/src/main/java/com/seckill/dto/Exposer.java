@@ -28,12 +28,14 @@ public class Exposer {
     //秒杀结束时间
     private long end;
 
+    //秒杀开启构造方法
     public Exposer(boolean exposed, String md5, long seckillId) {
         this.exposed = exposed;
         this.md5 = md5;
         this.seckillId = seckillId;
     }
 
+    //秒杀未开启，或者秒杀结束，失败
     public Exposer(boolean exposed, long seckillId, long now, long start, long end) {
         this.exposed = exposed;
         this.seckillId = seckillId;
@@ -42,6 +44,7 @@ public class Exposer {
         this.end = end;
     }
 
+    //秒杀商品id不存在，失败
     public Exposer(boolean exposed, long seckillId) {
         this.exposed = exposed;
         this.seckillId = seckillId;

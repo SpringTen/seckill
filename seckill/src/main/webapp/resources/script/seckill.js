@@ -13,6 +13,7 @@ var seckill = {
             return '/seckill/' + seckillId + '/' + md5 + '/execution';
         }
     },
+    //验证手机号
     validatePhone: function (phone) {
         if (phone && phone.length == 11 && !isNaN(phone)) {
             return true;
@@ -20,6 +21,7 @@ var seckill = {
             return false;
         }
     },
+    //执行秒杀
     handleSeckillkill: function (seckillId, node) {
         //获取秒杀地址，控制显示逻辑，实现秒杀
         node.hide().html('<button class="btn btn-primary btn-lg" id="killBtn">开始秒杀</button>');
@@ -65,13 +67,15 @@ var seckill = {
             }
         });
     },
+    //计时
+
     countdown: function (seckillId, nowTime, startTime, endTime) {
         console.log("id: "+seckillId + ' nowTime: ' + nowTime + ' startTime: ' + startTime + ' endTime: ' + endTime);
         //计时操作
         var seckillBox = $('#seckill-box');
         if (nowTime > endTime) {
             //秒杀结束
-            seckillBox.html('秒杀结束！000');
+            seckillBox.html('秒杀结束！');
         } else if (nowTime < startTime) {
             //秒杀未开始，进行倒计时，使用jQuery提供的countdown，每次时间变化都会触发此事件
             var killTime = new Date(startTime);//秒杀开始时间

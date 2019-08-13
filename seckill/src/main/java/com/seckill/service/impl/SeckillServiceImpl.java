@@ -62,9 +62,11 @@ public class SeckillServiceImpl implements SeckillService {
     /**
      * 秒杀暴露接口需要优化，Seckill seckill = seckillDao.queryById(seckillId);
      * 此操作数据库放在缓存中进行
-     *
      * @param seckillId
      * @return
+     * 什么情况才能暴露秒杀接口呢？
+     *  1、秒杀商品的id存在，也就是秒杀商品存在
+     *  2、秒杀商品已经开启秒杀，并且还没结束
      */
     @Override
     public Exposer exposeSeckillUrl(long seckillId) {
@@ -87,7 +89,7 @@ public class SeckillServiceImpl implements SeckillService {
         long end = seckill.getEndTime().getTime();
         //系统当前时间
         long now = new Date().getTime();
-        //失败
+        //失败，秒杀未开启或者秒杀已结束
         if (now < start || now > end) {
             return new Exposer(false, seckillId, now, start, end);
         }
@@ -101,7 +103,7 @@ public class SeckillServiceImpl implements SeckillService {
         return DigestUtils.md5DigestAsHex(base.getBytes());
     }
 
-    //减库存，生成订单
+    //减库存，生成订单//  1.9/min
     @Override
     @Transactional
     /**

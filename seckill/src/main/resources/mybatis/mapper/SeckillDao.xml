@@ -2,6 +2,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.seckill.dao.SeckillDao">
+<!--  namespace表示 你要实现哪个接口  -->
     <!-- 多个参数时，可以省略，一个参数也可以省略 -->
     <update id="reduceNumber">
         update
@@ -23,7 +24,7 @@
     #2、配置文件扫描，那么多的类似这种 mapper/SeckillDao.xml mapper/SuccessKilledDao.xml
         mybatis接口配置文件，统一进行扫描-->
     <select id="queryById" resultType="Seckill" parameterType="Long">
-        <!-- 因为开启了驼峰命名，所以mybatis会自动匹配列名和实体属性，
+        <!-- 因为开启了驼峰命名，所以mybatis会自动匹配列名和实体属性，然后对Seckill进行装配
          否则，必须这样写：select
             seckill_id as seckillId ...-->
         select
