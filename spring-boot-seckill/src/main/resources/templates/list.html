@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>秒杀商品列表</title>
+</head>
+<body>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">
+            <h2>秒杀商品列表</h2>
+        </div>
+        <div class="panel-body">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>库存</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>创建时间</th>
+                    <th>详情</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="s : ${list}">
+                    <td th:text="${s.name}"></td>
+                    <td th:text="${s.number}"></td>
+                    <td th:text="${#dates.format(s.startTime, 'yyyy-MM-dd HH-mm-ss')}"></td>
+                    <td th:text="${#dates.format(s.endTime, 'yyyy-MM-dd HH-mm-ss')}"></td>
+                    <td th:text="${#dates.format(s.createTime, 'yyyy-MM-dd HH-mm-ss')}"></td>
+                    <td>
+                        <a class="btn btn-info" th:href="@{'/seckill/'+${s.seckillId}+'/detail'}" th:target="_blank">link</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<!-- 引入 Bootstrap -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</html>
